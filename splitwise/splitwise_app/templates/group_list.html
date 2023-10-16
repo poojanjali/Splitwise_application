@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Group List</title>
+</head>
+<body>
+    <h1>Your Groups</h1>
+
+    <ul>
+        {% for group in user_groups %}
+            <li>
+                <a href="{% url 'group_detail' group.id %}">{{ group.name }}</a>
+                <p>{{ group.description }}</p>
+                <a href="{% url 'update_group' group.id %}">Edit Group</a>
+                <a href="{% url 'delete_group' group.id %}">Delete Group</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'create_group' %}">Create a New Group</a>
+</body>
+</html>

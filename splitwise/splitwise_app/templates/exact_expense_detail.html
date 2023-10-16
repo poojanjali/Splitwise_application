@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exact Expense Details</title>
+</head>
+<body>
+    <h1>Exact Expense Details</h1>
+    <p>Amount: ${{ expense.amount }}</p>
+    <p>Type: Exact Expense</p>
+    <p>Details: {{ expense.expense }}</p>
+    
+    <a href="{% url 'update_expense' expense.id %}">Edit Expense</a>
+    <a href="{% url 'delete_expense' expense.id %}">Delete Expense</a>
+    <a href="{% url 'expense_list' %}">Back to Expense List</a>
+</body>
+</html>

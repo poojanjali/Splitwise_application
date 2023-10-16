@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simplify Expenses</title>
+</head>
+<body>
+    <h1>Simplify Expenses</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <label for="simplify_expenses">Simplify Expenses</label>
+        <input type="checkbox" name="simplify_expenses" {% if user.balance.simplify_expense %}checked{% endif %}>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <a href="{% url 'balance' %}">Back to balance</a>
+</body>
+</html>

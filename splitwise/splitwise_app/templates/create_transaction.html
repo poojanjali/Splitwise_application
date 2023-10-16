@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Transaction</title>
+</head>
+<body>
+    <h1>Create Transaction</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        
+        <!-- Select the lender from a list of users -->
+        <label for="lender">Lender:</label>
+        <select id="lender" name="lender">
+            {% for user in users %}
+                <option value="{{ user.id }}">{{ user.name }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Select the borrower from a list of users -->
+        <label for="borrower">Borrower:</label>
+        <select id="borrower" name="borrower">
+            {% for user in users %}
+                <option value="{{ user.id }}">{{ user.name }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Input field for the transaction amount -->
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount" step="0.01" required>
+
+        <!-- Checkbox for marking the transaction as settled -->
+        <label for="settled">Settled:</label>
+        <input type="checkbox" id="settled" name="settled">
+
+        <button type="submit">Create Transaction</button>
+    </form>
+</body>
+</html>

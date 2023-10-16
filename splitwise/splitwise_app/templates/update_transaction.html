@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Transaction</title>
+</head>
+<body>
+    <h1>Update Transaction</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- Input fields to update transaction details -->
+        <label for="lender">Lender:</label>
+        <select id="lender" name="lender">
+            {% for user in users %}
+                <option value="{{ user.id }}" {% if user.id == transaction.lender.id %}selected{% endif %}>
+                    {{ user.username }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label for="borrower">Borrower:</label>
+        <select id="borrower" name="borrower">
+            {% for user in users %}
+                <option value="{{ user.id }}" {% if user.id == transaction.borrower.id %}selected{% endif %}>
+                    {{ user.username }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount" step="0.01" value="{{ transaction.amount }}" required>
+
+        <label for="settled">Settled:</label>
+        <input type="checkbox" id="settled" name="settled" {% if transaction.settled %}checked{% endif %}>
+
+        <button type="submit">Update Transaction</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Group</title>
+</head>
+<body>
+    <h1>Update Group: {{ group.name }}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit">Update Group</button>
+    </form>
+
+    <a href="{% url 'group_detail' group.id %}">Back to Group Details</a>
+</body>
+</html>

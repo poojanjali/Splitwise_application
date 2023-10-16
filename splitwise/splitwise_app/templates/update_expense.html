@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Expense</title>
+</head>
+<body>
+    <h1>Update Expense: {{ expense.description }}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit">Update Expense</button>
+    </form>
+
+    <a href="{% url 'expense_detail' expense.id %}">Back to Expense Details</a>
+</body>
+</html>

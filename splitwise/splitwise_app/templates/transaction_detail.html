@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transaction Details</title>
+</head>
+<body>
+    <h1>Transaction Details</h1>
+
+    <dl>
+        <dt>Transaction ID:</dt>
+        <dd>{{ transaction.id }}</dd>
+
+        <dt>Lender:</dt>
+        <dd>{{ transaction.lender.username }}</dd>
+
+        <dt>Borrower:</dt>
+        <dd>{{ transaction.borrower.username }}</dd>
+
+        <dt>Amount:</dt>
+        <dd>{{ transaction.amount }}</dd>
+
+        <dt>Settled:</dt>
+        <dd>{% if transaction.settled %}Yes{% else %}No{% endif %}</dd>
+    </dl>
+
+    <a href="{% url 'edit_transaction' transaction.id %}">Edit Transaction</a>
+</body>
+</html>

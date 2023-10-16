@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Expense</title>
+</head>
+<body>
+    <h1>Create Expense</h1>
+    
+    {% if participant_limit_error %}
+    <p class="error-message">{{ participant_limit_error }}</p>
+    {% endif %}
+
+    {% if amount_limit_error %}
+    <p class="error-message">{{ amount_limit_error }}</p>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- Select expense type -->
+        <label for="expense_type">Expense Type:</label>
+        <select name="expense_type" id="expense_type">
+            <option value="EQUAL">Equal Expense</option>
+            <option value="EXACT">Exact Expense</option>
+            <option value="PERCENT">Percent Expense</option>
+        </select>
+
+        <!-- Fields for Equal Expense -->
+        <div class="equal-expense">
+            {{ equal_form.as_p }}
+        </div>
+
+        <!-- Fields for Exact Expense -->
+        <div class="exact-expense" style="display: none;">
+            {{ exact_form.as_p }}
+        </div>
+
+        <!-- Fields for Percent Expense -->
+        <div class="percent-expense" style="display: none;">
+            {{ percent_form.as_p }}
+        </div>
+
+        <button type="submit">Create Expense</button>
+    </form>
+
+    <a href="{% url 'expense_list' %}">Back to Expense List</a>
+
+    <script>
+        // Show/hide expense fields based on selected expense type
+        document.getElementById('expense_type').addEventListener('change', function () {
+            var selectedType = this.value;
+            var equalFields = document.querySelector('.equal-expense');
+            var exactFields = document.querySelector('.exact-expense');
+            var percentFields = document.querySelector('.percent-expense');
+
+            if (selectedType === 'EQUAL') {
+                equalFields.style.display = 'block';
+                exactFields.style.display = 'none';
+                percentFields.style.display = 'none';
+            } else if (selectedType === 'EXACT') {
+                equalFields.style.display = 'none';
+                exactFields.style.display = 'block';
+                percentFields.style.display = 'none';
+            } else if (selectedType === 'PERCENT') {
+                equalFields.style.display = 'none';
+                exactFields.style.display = 'none';
+                percentFields.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

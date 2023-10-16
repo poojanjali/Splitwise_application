@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Percent Expense Details</title>
+</head>
+<body>
+    <h1>Percent Expense Details</h1>
+    <h2>Title: {{ expense.description }}</h2>
+    <p>Amount: ${{ expense.amount }}</p>
+    <p>Type: Percent Expense</p>
+    
+    <p>Percentage Splits:</p>
+    <ul>
+        {% for split in expense.percentsplit_set.all %}
+            <li>{{ split.user.username }} - {{ split.percentages }}%</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'update_expense' expense.id %}">Edit Expense</a>
+    <a href="{% url 'delete_expense' expense.id %}">Delete Expense</a>
+    <a href="{% url 'expense_list' %}">Back to Expense List</a>
+</body>
+</html>

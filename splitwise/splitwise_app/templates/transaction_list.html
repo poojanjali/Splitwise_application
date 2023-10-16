@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Transaction List</title>
+</head>
+<body>
+    <h1>Transaction List</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Transaction ID</th>
+                <th>Lender</th>
+                <th>Borrower</th>
+                <th>Amount</th>
+                <th>Settled</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.id }}</td>
+                    <td>{{ transaction.lender.username }}</td>
+                    <td>{{ transaction.borrower.username }}</td>
+                    <td>{{ transaction.amount }}</td>
+                    <td>{% if transaction.settled %}Yes{% else %}No{% endif %}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

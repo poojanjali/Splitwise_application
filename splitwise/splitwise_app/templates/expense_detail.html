@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Expense Details</title>
+</head>
+<body>
+    <h1>Expense Details</h1>
+
+    <h2>Title: {{ expense.description }}</h2>
+    <p>Amount: ${{ expense.total_amount }}</p>
+    <p>Type: {{ expense.expense_type }}</p>
+
+    {% if expense.expense_type == 'EQUAL' %}
+        <p>Description: {{ expense.split_amount }}</p>
+    {% elif expense.expense_type == 'EXACT' %}
+        <p>Description: {{ expense.amount }}</p>
+    {% elif expense.expense_type == 'PERCENT' %}
+        <p>Percentage Splits:</p>
+        <ul>
+            {% for split in expense.percentsplit_set.all %}
+                <li>{{ split.user.username }} - {{ split.percentages }}%</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <a href="{% url 'update_expense' expense.id %}">Edit Expense</a>
+    <a href="{% url 'delete_expense' expense.id %}">Delete Expense</a>
+    <a href="{% url 'expense_list' %}">Back to Expense List</a>
+</body>
+</html>
