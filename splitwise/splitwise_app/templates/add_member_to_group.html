@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Member to Group</title>
+</head>
+<body>
+    <h1>Add Member to Group</h1>
+    
+    <h2>{{ group.name }}</h2>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Add Member">
+    </form>
+
+    <a href="{% url 'group_detail' group.id %}">Back to Group Details</a>
+</body>
+</html>

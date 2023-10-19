@@ -14,7 +14,8 @@
 
 from .models import Group,Expense,EqualExpense, ExactExpense, PercentExpense,Transaction,UserBalance
 from django.contrib.auth.forms import UserCreationForm
-# from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
 from django import forms
@@ -80,4 +81,37 @@ class TransactionForm(forms.ModelForm):
     class Meta:
         model = Transaction
         fields = ['expense', 'lender', 'borrower', 'amount', 'settled']
+
+class AddUserToGroupForm(forms.ModelForm):
+    class Meta:
+        model = Group
+        fields = ['members']
+
+class UpdateUserToGroupForm(forms.ModelForm):
+    class Meta:
+        model = Group
+        fields = ['members']  # Field to manage group members
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateUserToGroupForm, self).__init__(*args, **kwargs)
+
+        # Add a field for the user you want to add to or remove from the group
+        self.fields['user_to_add'] = forms.ModelChoiceField(
+            queryset=User.objects.all(),
+            required=False,
+            label="User to Add to the Group",
+        )
+
+        self.fields['user_to_remove'] = forms.ModelChoiceField(
+            queryset=User.objects.all(),
+            required=False,
+            label="User to Remove from the Group",
+        )
+
+# class DeleteGroupMemberForm(forms.Form):
+#     member_to_delete = forms.ModelChoiceField(
+#         queryset=Group.members.filter(id=id).delete(),
+#         label="Select member to delete",
+#     )
+
 

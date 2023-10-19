@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Group Member</title>
+</head>
+<body>
+    <h1>Delete Group Member</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Delete Member">
+    </form>
+</body>
+</html>

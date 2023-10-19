@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Group Members Detail</title>
+</head>
+<body>
+    <h1>Group Members Detail</h1>
+    
+    <h2>{{ group.name }}</h2>
+    
+    <h3>Current Members</h3>
+    <ul>
+        {% for member in group.members.all %}
+            <li>{{ member.name }}</li>
+            <!-- You can display other member details here -->
+        {% empty %}
+            <li>No members in this group</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'add_member_to_group' group.id %}">Add Member to Group</a>
+    
+</body>
+</html>

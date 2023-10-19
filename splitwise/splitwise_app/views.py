@@ -2,7 +2,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.shortcuts import render, redirect,get_object_or_404
 from .models import Group,Expense, EqualExpense, ExactExpense, PercentExpense,Transaction,UserBalance
-from .forms import GroupForm,ExpenseForm, EqualExpenseForm, ExactExpenseForm, PercentExpenseForm,TransactionForm,UserBalanceForm
+from .forms import GroupForm,ExpenseForm, EqualExpenseForm, ExactExpenseForm, PercentExpenseForm,TransactionForm,UserBalanceForm,AddUserToGroupForm#DeleteGroupMemberForm
 # from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -101,7 +101,9 @@ def create_group(request):
             group = form.save(commit=False)
             group.creator = request.user
             group.save()
-            group.members.add(request.user)
+            print(group)
+            group_mem = str(group.members.add(request.user))
+            print("---------------------",group_mem)
             return redirect('group_list')
     else:
         form = GroupForm()
@@ -110,7 +112,9 @@ def create_group(request):
 
 def group_list(request):
     user = request.user
+    print(user)
     user_groups = user.groups.all()
+    print(user_groups)
     return render(request, 'group_list.html', {'user_groups': user_groups})
 
 
@@ -159,12 +163,16 @@ def create_expense(request):
             form = PercentExpenseForm(request.POST)
         else:
             return redirect('expense_list')
+        print("------------------------")
         if form.is_valid():
-            expense = form.save()
-            return redirect('expense_list')
+            print('2222222222')
+            form.save()
+            print("11111111111111111")
+        return redirect('expense_list')
     else:
         form = ExpenseForm()
-    context = {'form': form}
+        context = {'form': form}
+        print('555555555555')
     # if form.errors:
     #     context['participant_limit_error'] = "The maximum number of participants allowed is 1000."
     participant_limit_error = ''
@@ -301,6 +309,71 @@ def update_balance(request):
         form = UserBalanceForm(instance=user_profile)
 
     return render(request, 'balance_update.html', {'form': form})
+
+# add members to groups
+
+def add_member_to_group(request, group_id):
+    group = Group.objects.get(pk=group_id)
+
+    if request.method == 'POST':
+        form = AddUserToGroupForm(request.POST, instance=group)
+        if form.is_valid():
+            form.save()
+            return redirect('groupmembers_detail', group_id=group_id)
+    else:
+        form = AddUserToGroupForm(instance=group)
+
+    return render(request, 'add_member_to_group.html', {'form': form, 'group': group})
+
+def groupmembers_detail(request, group_id):
+    group = Group.objects.get(pk=group_id)
+    members = group.members.all()  # Retrieve all members of the group
+
+    return render(request, 'groupmembers_detail.html', {'group': group, 'members': members})
+
+from .forms import UpdateUserToGroupForm
+
+def update_group_members(request, group_id):
+    group = Group.objects.get(pk=group_id)
+
+    if request.method == 'POST':
+        form = UpdateUserToGroupForm(request.POST, instance=group)
+        if form.is_valid():
+            # Add the selected user to the group
+            user_to_add = form.cleaned_data.get('user_to_add')
+            if user_to_add:
+                group.members.add(user_to_add)
+
+            # Remove the selected user from the group
+            user_to_remove = form.cleaned_data.get('user_to_remove')
+            if user_to_remove:
+                group.members.remove(user_to_remove)
+
+            return redirect('group_members_detail', group_id=group_id)
+
+    else:
+        form = UpdateUserToGroupForm(instance=group)
+
+    return render(request, 'update_group_members.html', {'form': form, 'group': group})
+
+# def delete_group_member(request, group_id):
+#     group = Group.objects.get(pk=group_id)
+
+#     if request.method == 'POST':
+#         form = DeleteGroupMemberForm(request.POST)
+#         if form.is_valid():
+#             member_to_delete = form.cleaned_data['member_to_delete']
+#             group.members.remove(member_to_delete)
+#             return redirect('group_members_detail', group_id=group_id)
+
+#     else:
+#         form = DeleteGroupMemberForm()
+
+#     return render(request, 'delete_group_member.html', {'form': form, 'group': group})
+
+
+
+
 
 
 

@@ -44,7 +44,10 @@ urlpatterns = [
     path('transactions/<int:transaction_id>/delete/', views.delete_transaction, name='delete_transaction'),
     path('balance/update/', views.update_balance, name='update_balance'),
     path('simplify/expenses/', views.simplify_expenses, name='simplify_expenses'),
-
+    #path('group/<int:group_id>/delete_member/', views.delete_group_member, name='delete_group_member'),
+    path('group/<int:group_id>/add_groupmember/',views.add_member_to_group,name='add_member_to_group'),
+    path('group/<int:group_id>/update_member/',views.add_member_to_group,name='update_group_member'),
+    path('group/<int:group_id>/groupmembers_detail/',views.groupmembers_detail,name = 'groupmembers_detail')
 
 ]
 
